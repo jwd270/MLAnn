@@ -7,12 +7,28 @@
 //
 
 #include <iostream>
+#include <string>
+#include "Eigen/Eigen"
+#include "mlAnnApp.h"
+
+using namespace Eigen;
+using namespace std;
 
 int main(int argc, const char * argv[])
 {
-
-	// insert code here...
-	std::cout << "Hello, World!\n";
+	if (argc < 3) {
+		printHelp();
+	}
+	
     return 0;
 }
 
+
+
+
+
+void printHelp(void){
+	cout << "Multi Layer ANN training program." << endl
+	<< "Useage: mlAnn <number of layers> <number of nodes per layer>" << endl;
+	
+}
