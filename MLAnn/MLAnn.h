@@ -8,6 +8,7 @@
 /*
  * This class implements a flexible multi-layer perceptron.  The internal node structure is limited to a lock format where each layer has the same number of hidden nodes.
  * The input and output layers can have a different number of nodes than the hidden layers.
+ * Each layer is fully connected with the previous layer
  */
 
 #ifndef __MLAnn__MLAnn__
@@ -19,24 +20,29 @@
 #include "Eigen/Eigen"
 class MLAnn{
 public:
+	//House keeping
 	MLAnn(int, int, int, int);
 	MLAnn(void);
 	~MLAnn(void);
-	
 	bool writeToFile(Eigen::MatrixXd *, std::string);
+	bool writeStateCsv(std::string);
 	void setNumInputNodes(int num);
 	void setNumOutputNodes(int num);
 	void setNumHiddenLayers(int num);
 	void setNumNodesPerLayer(int num);
+	void setExpectedValues(Eigen::VectorXd);
 	int getNumInputNodes(void);
 	int getNumOutputNodes(void);
 	int getNumHiddenLayers(void);
 	int getNumNodesPerLayer(void);
-	
+	Eigen::VectorXd getError(void);
 	bool isInitalized(void);
 	bool init(int, int, int, int);
+	
+	//Business End
 	bool forwardProp(void);
 	bool reverseProp(void);
+	void printState(void);
 	
 private:
 	bool initalized;

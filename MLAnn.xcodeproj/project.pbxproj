@@ -30,7 +30,7 @@
 		3CB4E9C815D2A6CA004EB71D /* mlAnnApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mlAnnApp.h; sourceTree = "<group>"; };
 		3CB4E9C915D2A8D1004EB71D /* MLAnn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MLAnn.cpp; sourceTree = "<group>"; };
 		3CB4E9CA15D2A8D1004EB71D /* MLAnn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLAnn.h; sourceTree = "<group>"; };
-		3CBB5BEF15D28DAF0064C253 /* MLAnn */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MLAnn; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CBB5BEF15D28DAF0064C253 /* mlAnnApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mlAnnApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CBB5BF315D28DAF0064C253 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		3CBB5BF515D28DAF0064C253 /* MLAnn.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = MLAnn.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,7 +57,7 @@
 		3CBB5BF015D28DAF0064C253 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3CBB5BEF15D28DAF0064C253 /* MLAnn */,
+				3CBB5BEF15D28DAF0064C253 /* mlAnnApp */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -92,7 +92,7 @@
 			);
 			name = MLAnn;
 			productName = MLAnn;
-			productReference = 3CBB5BEF15D28DAF0064C253 /* MLAnn */;
+			productReference = 3CBB5BEF15D28DAF0064C253 /* mlAnnApp */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -186,14 +186,14 @@
 		3CBB5BFA15D28DAF0064C253 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = mlAnnApp;
 			};
 			name = Debug;
 		};
 		3CBB5BFB15D28DAF0064C253 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = mlAnnApp;
 			};
 			name = Release;
 		};

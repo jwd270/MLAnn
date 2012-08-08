@@ -16,8 +16,12 @@ MLAnn::MLAnn(void){
 	initalized = false;
 }
 
+MLAnn::~MLAnn(){
+	initalized = false;
+}
+
 MLAnn::MLAnn(int iNodes, int oNodes, int hLayers, int nodesPerLayer){
-	
+	initalized = false;
 	init(iNodes,oNodes,hLayers,nodesPerLayer);
 }
 
@@ -30,24 +34,47 @@ bool MLAnn::reverseProp(void){
 	
 	return true;
 }
+
 bool MLAnn::init(int iNodes, int oNodes, int hLayers, int nodesPerLayer){
 	numInputNodes = iNodes;
 	numOutputNodes = oNodes;
 	numHiddenLayers = hLayers;
 	numNodesPerLayer = nodesPerLayer;
 	
-	inputWeights = VectorXd(iNodes);
-	outputWeights = VectorXd(oNodes);
+	inputWeights = VectorXd::Ones(iNodes);
+	outputWeights = VectorXd::Ones(oNodes);
 	expectedValues = VectorXd(oNodes);
 	outputError = VectorXd(oNodes);
-	hiddenWeights = MatrixXd(nodesPerLayer,hLayers);
-	ilField = MatrixXd(nodesPerLayer,hLayers);
+	hiddenWeights = MatrixXd::Ones(nodesPerLayer,hLayers);
+	ilField = MatrixXd::Zero(nodesPerLayer,hLayers);
 	
 	initalized = true;
 	return true;
 }
 
+void MLAnn::printState(){
+	cout << "Input Weight Vector: "  << inputWeights.rows() << "x" << inputWeights.cols() << endl << inputWeights << endl;
+	cout << "Hidden Weights: " << hiddenWeights.rows() << "x" << hiddenWeights.cols() << endl << hiddenWeights << endl;
+	cout << "Induced Local Field: " << ilField.rows() << "x" << ilField.cols() << endl << ilField << endl;
+	cout << "Output Weight Vector: " << outputWeights.rows() << "x" << outputWeights.cols() << endl << outputWeights << endl;
+	cout << "Error: " << outputError.rows() << "x" << outputError.cols() << endl << outputError << endl;
+}
+
+bool MLAnn::writeStateCsv(std::string fName){
+	fName += "_state.csv";
+	fstream fileBuff(fName.c_str(),ios_base::out|ios_base::trunc);
+	
+	if(!fileBuff.is_open()){
+		cout << "Failed to open file: " << fName << endl;
+		return false;
+	}
+	
+	fileBuff.close();
+	return true;
+}
+
 bool MLAnn::writeToFile(MatrixXd *dat, std::string fName){
+	fName += "_item.csv";
 	fstream fileBuff;
 	fileBuff.open(fName.c_str(), ios_base::out|ios_base::trunc);
 	if(!fileBuff.is_open()){
@@ -55,7 +82,7 @@ bool MLAnn::writeToFile(MatrixXd *dat, std::string fName){
 		return false;
 	}
 		
-	
+	fileBuff.close();
 	return true;
 }
 
@@ -79,6 +106,10 @@ int MLAnn::getNumNodesPerLayer(){
 	return numNodesPerLayer;
 }
 
+VectorXd MLAnn::getError(){
+	return outputError;
+}
+
 void MLAnn::setNumInputNodes(int num){
 	numInputNodes = num;
 }
@@ -95,3 +126,8 @@ void MLAnn::setNumNodesPerLayer(int num){
 	numNodesPerLayer = num;
 	
 }
+
+void MLAnn::setExpectedValues(Eigen::VectorXd expVal){
+	expectedValues = expVal;
+}
+
