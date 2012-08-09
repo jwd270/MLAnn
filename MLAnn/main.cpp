@@ -36,6 +36,7 @@ int main(int argc, const char * argv[])
 	int nodesPerLayer = atoi(argv[4]);
 	int trainingEpochs = atoi(argv[5]);
 	string fName(argv[6]);
+
 	
 	MLAnn nn(iNodes, oNodes,layers, nodesPerLayer);
 	
@@ -52,12 +53,15 @@ int main(int argc, const char * argv[])
 	
 	for (int epoch = 0; epoch < trainingEpochs; epoch++) {
 		for (int sample = 0; sample < trainDataSize; sample++) {
-			nn.setInputValues(trainData.col(sample));
-			nn.setExpectedValues(resultData.col(sample));
+			nn.setInputValues(trainData.row(sample));
+			nn.setExpectedValues(resultData.row(sample));
+			nn.forwardProp();
+			nn.reverseProp();
+			nn.printState();
 			
 		}
 	}
-	
+
     return 0;
 }
 

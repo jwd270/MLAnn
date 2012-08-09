@@ -33,6 +33,7 @@ public:
 	void setNumNodesPerLayer(int num);
 	void setExpectedValues(Eigen::VectorXd);
 	void setInputValues(Eigen::VectorXd);
+	void setUseHyperbolic(bool);
 	int getNumInputNodes(void);
 	int getNumOutputNodes(void);
 	int getNumHiddenLayers(void);
@@ -54,6 +55,7 @@ private:
 	bool inputValid;
 	bool outputValid;
 	bool errorValid;
+	bool userHyperbolic;
 	int numInputNodes;
 	int numOutputNodes;
 	int numHiddenLayers;
@@ -65,6 +67,7 @@ private:
 	Eigen::MatrixXd weightMat;		// weights of hidden layers
 	Eigen::MatrixXd ilField;		// induced local field
 	
-	double actFunc(double,bool);	// computes value of activation function
+	double actFunc(double);			// computes value of activation function
+	double actFuncPrime(double);	// computes value of the deritive of the activation function
 };
 #endif /* defined(__MLAnn__MLAnn__) */
