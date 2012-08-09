@@ -8,8 +8,9 @@
 
 #ifndef MLAnn_mlAnnApp_h
 #define MLAnn_mlAnnApp_h
+#include "Eigen/Eigen"
 
 void printHelp(void);
-
+Eigen::VectorXd recip(Eigen::VectorXd);
 
 #endif

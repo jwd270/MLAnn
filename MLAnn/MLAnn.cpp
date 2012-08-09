@@ -20,12 +20,17 @@ MLAnn::~MLAnn(){
 	initalized = false;
 }
 
-MLAnn::MLAnn(int iNodes, int oNodes, int hLayers, int nodesPerLayer){
+MLAnn::MLAnn(int iNodes, int oNodes, int layers, int nodesPerLayer){
 	initalized = false;
-	init(iNodes,oNodes,hLayers,nodesPerLayer);
+	init(iNodes,oNodes,layers,nodesPerLayer);
 }
 
 bool MLAnn::forwardProp(void){
+	if (!inputValid) {
+		return false;
+	}
+	inputValid = false;
+	outputValid = true;
 	
 	return true;
 }
@@ -35,28 +40,37 @@ bool MLAnn::reverseProp(void){
 	return true;
 }
 
-bool MLAnn::init(int iNodes, int oNodes, int hLayers, int nodesPerLayer){
+double MLAnn::actFunc(double v, bool type=true){
+	if(type){
+		return pow(1 + exp(-v), -1);	// Sigmoidal activation function with a range of 0 to 1
+	}else{
+		return tanh(v);	// Sigmoidal activation function with range of -1 to 1
+	}
+}
+
+bool MLAnn::init(int iNodes, int oNodes, int layers, int nodesPerLayer){
 	numInputNodes = iNodes;
 	numOutputNodes = oNodes;
-	numHiddenLayers = hLayers;
+	numHiddenLayers = layers;
 	numNodesPerLayer = nodesPerLayer;
 	
-	inputWeights = VectorXd::Ones(iNodes);
-	outputWeights = VectorXd::Ones(oNodes);
-	expectedValues = VectorXd(oNodes);
-	outputError = VectorXd(oNodes);
-	hiddenWeights = MatrixXd::Ones(nodesPerLayer,hLayers);
-	ilField = MatrixXd::Zero(nodesPerLayer,hLayers);
+	expectedValues = VectorXd::Zero(oNodes);
+	inputValues = VectorXd::Zero(iNodes);
+	outputError = VectorXd::Zero(oNodes);
+	weightMat = MatrixXd::Ones(nodesPerLayer,layers);
+	ilField = MatrixXd::Zero(nodesPerLayer,layers);
+	outputValid = false;
+	errorValid = false;
+	inputValid = false;
 	
 	initalized = true;
 	return true;
 }
 
 void MLAnn::printState(){
-	cout << "Input Weight Vector: "  << inputWeights.rows() << "x" << inputWeights.cols() << endl << inputWeights << endl;
-	cout << "Hidden Weights: " << hiddenWeights.rows() << "x" << hiddenWeights.cols() << endl << hiddenWeights << endl;
+	cout << "Weights: " << weightMat.rows() << "x" << weightMat.cols() << endl << weightMat << endl;
 	cout << "Induced Local Field: " << ilField.rows() << "x" << ilField.cols() << endl << ilField << endl;
-	cout << "Output Weight Vector: " << outputWeights.rows() << "x" << outputWeights.cols() << endl << outputWeights << endl;
+	cout << "Output:" << 
 	cout << "Error: " << outputError.rows() << "x" << outputError.cols() << endl << outputError << endl;
 }
 
@@ -90,6 +104,14 @@ bool MLAnn::isInitalized(){
 	return initalized;
 }
 
+bool MLAnn::isErrorValid(){
+	return errorValid;
+}
+
+bool MLAnn::isOuputValid(){
+	return outputValid;
+}
+
 int MLAnn::getNumInputNodes(){
 	return numInputNodes;
 }
@@ -118,13 +140,18 @@ void MLAnn::setNumOutputNodes(int num){
 	numOutputNodes = num;
 }
 
-void MLAnn::setNumHiddenLayers(int num){
+void MLAnn::setNumLayers(int num){
 	numHiddenLayers = num;
 }
 
 void MLAnn::setNumNodesPerLayer(int num){
 	numNodesPerLayer = num;
 	
+}
+
+void MLAnn::setInputValues(Eigen::VectorXd in){
+	inputValues = in;
+	inputValid = true;
 }
 
 void MLAnn::setExpectedValues(Eigen::VectorXd expVal){

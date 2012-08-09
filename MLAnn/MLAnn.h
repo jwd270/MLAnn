@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 #include "Eigen/Eigen"
 class MLAnn{
@@ -28,34 +29,42 @@ public:
 	bool writeStateCsv(std::string);
 	void setNumInputNodes(int num);
 	void setNumOutputNodes(int num);
-	void setNumHiddenLayers(int num);
+	void setNumLayers(int num);
 	void setNumNodesPerLayer(int num);
 	void setExpectedValues(Eigen::VectorXd);
+	void setInputValues(Eigen::VectorXd);
 	int getNumInputNodes(void);
 	int getNumOutputNodes(void);
 	int getNumHiddenLayers(void);
 	int getNumNodesPerLayer(void);
 	Eigen::VectorXd getError(void);
+	bool isOuputValid(void);
+	bool isErrorValid(void);
 	bool isInitalized(void);
 	bool init(int, int, int, int);
 	
 	//Business End
 	bool forwardProp(void);
 	bool reverseProp(void);
+	bool doTrainEpoch(void);
 	void printState(void);
 	
 private:
 	bool initalized;
+	bool inputValid;
+	bool outputValid;
+	bool errorValid;
 	int numInputNodes;
 	int numOutputNodes;
 	int numHiddenLayers;
 	int numNodesPerLayer;
-	Eigen::VectorXd inputWeights;	// weights for the input layer
-	Eigen::VectorXd outputWeights;	// weights fo the output layer
+	Eigen::VectorXd inputValues;	// Vector of inputs to system
+	Eigen::VectorXd outputValues;	// Vector of outputs from the system
 	Eigen::VectorXd expectedValues;	// expected output of the network
 	Eigen::VectorXd outputError;	// Error vector at output layer
-	Eigen::MatrixXd hiddenWeights;	// weights of hidden layers
+	Eigen::MatrixXd weightMat;		// weights of hidden layers
 	Eigen::MatrixXd ilField;		// induced local field
 	
+	double actFunc(double,bool);	// computes value of activation function
 };
 #endif /* defined(__MLAnn__MLAnn__) */
