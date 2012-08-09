@@ -27,6 +27,7 @@ public:
 	~MLAnn(void);
 	bool writeToFile(Eigen::MatrixXd *, std::string);
 	bool writeStateCsv(std::string);
+	//Setters
 	void setNumInputNodes(int num);
 	void setNumOutputNodes(int num);
 	void setNumLayers(int num);
@@ -34,11 +35,15 @@ public:
 	void setExpectedValues(Eigen::VectorXd);
 	void setInputValues(Eigen::VectorXd);
 	void setUseHyperbolic(bool);
+	void setLearnRate(double);
+	void setMomentumConst(double);
+	//Getters
 	int getNumInputNodes(void);
 	int getNumOutputNodes(void);
 	int getNumHiddenLayers(void);
 	int getNumNodesPerLayer(void);
-	Eigen::VectorXd getError(void);
+	Eigen::VectorXd getErrorVec(void);
+	double getMeanError(void);
 	bool isOuputValid(void);
 	bool isErrorValid(void);
 	bool isInitalized(void);
@@ -58,14 +63,18 @@ private:
 	bool userHyperbolic;
 	int numInputNodes;
 	int numOutputNodes;
-	int numHiddenLayers;
+	int numLayers;
 	int numNodesPerLayer;
+	double meanError;
+	double learnRate;
+	double momentumConst;
 	Eigen::VectorXd inputValues;	// Vector of inputs to system
 	Eigen::VectorXd outputValues;	// Vector of outputs from the system
 	Eigen::VectorXd expectedValues;	// expected output of the network
 	Eigen::VectorXd outputError;	// Error vector at output layer
 	Eigen::MatrixXd weightMat;		// weights of hidden layers
 	Eigen::MatrixXd ilField;		// induced local field
+	Eigen::MatrixXd lgField;		// Local gradient field
 	
 	double actFunc(double);			// computes value of activation function
 	double actFuncPrime(double);	// computes value of the deritive of the activation function

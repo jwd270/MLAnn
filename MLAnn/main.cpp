@@ -56,7 +56,7 @@ int main(int argc, const char * argv[])
 			nn.setInputValues(trainData.row(sample));
 			nn.setExpectedValues(resultData.row(sample));
 			nn.forwardProp();
-			nn.reverseProp();
+			//nn.reverseProp();
 			nn.printState();
 			
 		}
