@@ -29,6 +29,7 @@ int main(int argc, const char * argv[])
 		printHelp();
 		exit(0);
 	}
+	
 	int trainDataSize = (int)(((TRAINING_END - TRAINING_START) + 1)/TRAINING_STEP);
 	int iNodes = atoi(argv[1]);
 	int oNodes = atoi(argv[2]);
@@ -42,7 +43,7 @@ int main(int argc, const char * argv[])
 	
 	cout << "Output file: " << fName << endl;
 	cout << "Neural Network Initalized:" << endl;
-	nn.printState();
+	nn.printState(false);
 	
 	VectorXd trainData = VectorXd(trainDataSize);
 	VectorXd resultData = VectorXd(trainDataSize);
@@ -52,16 +53,24 @@ int main(int argc, const char * argv[])
 	resultData = recip(trainData);
 	
 	for (int epoch = 0; epoch < trainingEpochs; epoch++) {
-		for (int sample = 0; sample < trainDataSize; sample++) {
+		for (int sample = 0; sample < 1 /*trainDataSize*/; sample++) {
 			nn.setInputValues(trainData.row(sample));
 			nn.setExpectedValues(resultData.row(sample));
 			nn.forwardProp();
-			//nn.reverseProp();
-			nn.printState();
+			//nn.printState(true);
+			nn.reverseProp();
+			nn.printState(true);
 			
 		}
 	}
-
+/*
+	for (int cnt = 0; cnt < trainDataSize; cnt++) {
+		nn.setInputValues(trainData.row(cnt));
+		nn.setExpectedValues(resultData.row(cnt));
+		nn.forwardProp();
+		nn.printState(false);
+	}
+*/
     return 0;
 }
 

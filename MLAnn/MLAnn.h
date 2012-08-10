@@ -53,7 +53,7 @@ public:
 	bool forwardProp(void);
 	bool reverseProp(void);
 	bool doTrainEpoch(void);
-	void printState(void);
+	void printState(bool);
 	
 private:
 	bool initalized;
@@ -64,17 +64,21 @@ private:
 	int numInputNodes;
 	int numOutputNodes;
 	int numLayers;
+	int numWeightLayers;
 	int numNodesPerLayer;
 	double meanError;
 	double learnRate;
 	double momentumConst;
 	Eigen::VectorXd inputValues;	// Vector of inputs to system
+	Eigen::VectorXd outputField;	// Local field for output neurons
 	Eigen::VectorXd outputValues;	// Vector of outputs from the system
 	Eigen::VectorXd expectedValues;	// expected output of the network
 	Eigen::VectorXd outputError;	// Error vector at output layer
 	Eigen::MatrixXd weightMat;		// weights of hidden layers
 	Eigen::MatrixXd ilField;		// induced local field
 	Eigen::MatrixXd lgField;		// Local gradient field
+	Eigen::VectorXd outputGradField;	// Local gradient for output neurons
+	Eigen::VectorXd inputGradField;		// LOcal gradient for input neurons
 	
 	double actFunc(double);			// computes value of activation function
 	double actFuncPrime(double);	// computes value of the deritive of the activation function
